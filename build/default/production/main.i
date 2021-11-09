@@ -4760,38 +4760,40 @@ int main(void)
     setupPorts();
     setupSerial();
 
-    sprintf(buffer, "Enter a statement below:\n\r");
-    send_string_no_lib(buffer);
+    while(1) {
+        sprintf(buffer, "Enter a statement below (15 characters):\n\r");
+        send_string_no_lib(buffer);
 
-    extern volatile char gotten __attribute__((address(0x020)));
-    gotten = 'a';
-    char * ptr = &gotten;
+        extern volatile char gotten __attribute__((address(0x020)));
+        gotten = 'a';
+        char * ptr = &gotten;
 
-    for(short i=0; i<15; i++) {
-        while(1) {
-            delay_ms(10);
-            if(is_byte_available()) {
-                *ptr = read_byte_no_lib();
-                ptr++;
-                break;
+        for(short i=0; i<15; i++) {
+            while(1) {
+                delay_ms(10);
+                if(is_byte_available()) {
+                    *ptr = read_byte_no_lib();
+                    ptr++;
+                    break;
+                }
             }
         }
+
+        for(ptr = &gotten; *ptr; ++ptr)
+            if(*ptr >= 'A' && *ptr <= 'Z')
+                *ptr += 32;
+            else if(*ptr >= 'a' && *ptr <= 'z')
+                *ptr -= 32;
+
+        ptr = &gotten;
+        sprintf(buffer, "\n\rReceived string: ");
+        send_string_no_lib(buffer);
+        send_string_no_lib(ptr);
+        sprintf(buffer, "\r\n");
+        send_string_no_lib(buffer);
+        print_line();
+
+        __asm(" clrwdt");
     }
-
-    for(ptr = &gotten; *ptr; ++ptr)
-        if(*ptr >= 'A' && *ptr <= 'Z')
-            *ptr += 32;
-        else if(*ptr >= 'a' && *ptr <= 'z')
-            *ptr -= 32;
-
-    ptr = &gotten;
-    sprintf(buffer, "\n\rReceived string: ");
-    send_string_no_lib(buffer);
-    send_string_no_lib(ptr);
-    sprintf(buffer, "\r\n");
-    send_string_no_lib(buffer);
-    print_line();
-
-    while(1) { __asm(" clrwdt"); }
     return 0;
 }

@@ -61,8 +61,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "6 ./my_ser.h
 [; ;./my_ser.h: 6: void setupSerial();
 [v _setupSerial `(v ~T0 @X0 0 e? ]
-"215 main.c
-[; ;main.c: 215:     extern volatile char gotten __attribute__((address(0x020)));
+"216 main.c
+[; ;main.c: 216:         extern volatile char gotten __attribute__((address(0x020)));
 [v _gotten `Vuc ~T0 @X0 0 e@32 ]
 "7 ./my_ser.h
 [; ;./my_ser.h: 7: unsigned char is_byte_available();
@@ -809,134 +809,138 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;main.c: 210:     setupSerial();
 [e ( _setupSerial ..  ]
 "212
-[; ;main.c: 212:     sprintf(buffer, "Enter a statement below:\n\r");
-[e ( _sprintf (1 , &U _buffer :s 11C ]
+[; ;main.c: 212:     while(1) {
+[e :U 291 ]
+{
 "213
-[; ;main.c: 213:     send_string_no_lib(buffer);
+[; ;main.c: 213:         sprintf(buffer, "Enter a statement below (15 characters):\n\r");
+[e ( _sprintf (1 , &U _buffer :s 11C ]
+"214
+[; ;main.c: 214:         send_string_no_lib(buffer);
 [e ( _send_string_no_lib (1 -> &U _buffer `*uc ]
-"216
-[; ;main.c: 216:     gotten = 'a';
-[e = _gotten -> -> 97 `ui `uc ]
 "217
-[; ;main.c: 217:     char * ptr = &gotten;
+[; ;main.c: 217:         gotten = 'a';
+[e = _gotten -> -> 97 `ui `uc ]
+"218
+[; ;main.c: 218:         char * ptr = &gotten;
 [v _ptr `*uc ~T0 @X0 1 a ]
 [e = _ptr -> &U _gotten `*uc ]
-"219
-[; ;main.c: 219:     for(short i=0; i<15; i++) {
+"220
+[; ;main.c: 220:         for(short i=0; i<15; i++) {
 {
 [v _i `s ~T0 @X0 1 a ]
 [e = _i -> -> 0 `i `s ]
-[e $ < -> _i `i -> 15 `i 290  ]
-[e $U 291  ]
-[e :U 290 ]
-{
-"220
-[; ;main.c: 220:         while(1) {
-[e :U 294 ]
+[e $ < -> _i `i -> 15 `i 293  ]
+[e $U 294  ]
+[e :U 293 ]
 {
 "221
-[; ;main.c: 221:             delay_ms(10);
-[e ( _delay_ms (1 -> -> 10 `i `ui ]
-"222
-[; ;main.c: 222:             if(is_byte_available()) {
-[e $ ! != -> ( _is_byte_available ..  `i -> 0 `i 296  ]
+[; ;main.c: 221:             while(1) {
+[e :U 297 ]
 {
+"222
+[; ;main.c: 222:                 delay_ms(10);
+[e ( _delay_ms (1 -> -> 10 `i `ui ]
 "223
-[; ;main.c: 223:                 *ptr = read_byte_no_lib();
-[e = *U _ptr -> ( _read_byte_no_lib ..  `uc ]
+[; ;main.c: 223:                 if(is_byte_available()) {
+[e $ ! != -> ( _is_byte_available ..  `i -> 0 `i 299  ]
+{
 "224
-[; ;main.c: 224:                 ptr++;
-[e ++ _ptr * -> -> 1 `i `x -> -> # *U _ptr `i `x ]
+[; ;main.c: 224:                     *ptr = read_byte_no_lib();
+[e = *U _ptr -> ( _read_byte_no_lib ..  `uc ]
 "225
-[; ;main.c: 225:                 break;
-[e $U 295  ]
+[; ;main.c: 225:                     ptr++;
+[e ++ _ptr * -> -> 1 `i `x -> -> # *U _ptr `i `x ]
 "226
-[; ;main.c: 226:             }
+[; ;main.c: 226:                     break;
+[e $U 298  ]
+"227
+[; ;main.c: 227:                 }
+}
+[e :U 299 ]
+"228
+[; ;main.c: 228:             }
 }
 [e :U 296 ]
-"227
-[; ;main.c: 227:         }
-}
-[e :U 293 ]
-[e $U 294  ]
-[e :U 295 ]
-"228
-[; ;main.c: 228:     }
+[e $U 297  ]
+[e :U 298 ]
+"229
+[; ;main.c: 229:         }
 }
 [e ++ _i -> -> 1 `i `s ]
-[e $ < -> _i `i -> 15 `i 290  ]
-[e :U 291 ]
+[e $ < -> _i `i -> 15 `i 293  ]
+[e :U 294 ]
 }
-"230
-[; ;main.c: 230:     for(ptr = &gotten; *ptr; ++ptr)
-{
-[e = _ptr -> &U _gotten `*uc ]
-[e $U 300  ]
-[e :U 297 ]
 "231
-[; ;main.c: 231:         if(*ptr >= 'A' && *ptr <= 'Z')
-[e $ ! && >= -> *U _ptr `ui -> 65 `ui <= -> *U _ptr `ui -> 90 `ui 301  ]
-"232
-[; ;main.c: 232:             *ptr += 32;
-[e =+ *U _ptr -> -> 32 `i `uc ]
-[e $U 302  ]
-"233
-[; ;main.c: 233:         else if(*ptr >= 'a' && *ptr <= 'z')
-[e :U 301 ]
-[e $ ! && >= -> *U _ptr `ui -> 97 `ui <= -> *U _ptr `ui -> 122 `ui 303  ]
-"234
-[; ;main.c: 234:             *ptr -= 32;
-[e =- *U _ptr -> -> 32 `i `uc ]
-[e :U 303 ]
-[e :U 302 ]
-[e =+ _ptr * -> -> 1 `i `x -> -> # *U _ptr `i `x ]
-[e :U 300 ]
-[e $ != -> *U _ptr `i -> 0 `i 297  ]
-[e :U 298 ]
-}
-"236
-[; ;main.c: 236:     ptr = &gotten;
-[e = _ptr -> &U _gotten `*uc ]
-"237
-[; ;main.c: 237:     sprintf(buffer, "\n\rReceived string: ");
-[e ( _sprintf (1 , &U _buffer :s 12C ]
-"238
-[; ;main.c: 238:     send_string_no_lib(buffer);
-[e ( _send_string_no_lib (1 -> &U _buffer `*uc ]
-"239
-[; ;main.c: 239:     send_string_no_lib(ptr);
-[e ( _send_string_no_lib (1 -> _ptr `*uc ]
-"240
-[; ;main.c: 240:     sprintf(buffer, "\r\n");
-[e ( _sprintf (1 , &U _buffer :s 13C ]
-"241
-[; ;main.c: 241:     send_string_no_lib(buffer);
-[e ( _send_string_no_lib (1 -> &U _buffer `*uc ]
-"242
-[; ;main.c: 242:     print_line();
-[e ( _print_line ..  ]
-"244
-[; ;main.c: 244:     while(1) { __asm(" clrwdt"); }
-[e :U 305 ]
+[; ;main.c: 231:         for(ptr = &gotten; *ptr; ++ptr)
 {
-[; <"  clrwdt ;# ">
-}
-[e :U 304 ]
+[e = _ptr -> &U _gotten `*uc ]
+[e $U 303  ]
+[e :U 300 ]
+"232
+[; ;main.c: 232:             if(*ptr >= 'A' && *ptr <= 'Z')
+[e $ ! && >= -> *U _ptr `ui -> 65 `ui <= -> *U _ptr `ui -> 90 `ui 304  ]
+"233
+[; ;main.c: 233:                 *ptr += 32;
+[e =+ *U _ptr -> -> 32 `i `uc ]
 [e $U 305  ]
+"234
+[; ;main.c: 234:             else if(*ptr >= 'a' && *ptr <= 'z')
+[e :U 304 ]
+[e $ ! && >= -> *U _ptr `ui -> 97 `ui <= -> *U _ptr `ui -> 122 `ui 306  ]
+"235
+[; ;main.c: 235:                 *ptr -= 32;
+[e =- *U _ptr -> -> 32 `i `uc ]
 [e :U 306 ]
+[e :U 305 ]
+[e =+ _ptr * -> -> 1 `i `x -> -> # *U _ptr `i `x ]
+[e :U 303 ]
+[e $ != -> *U _ptr `i -> 0 `i 300  ]
+[e :U 301 ]
+}
+"237
+[; ;main.c: 237:         ptr = &gotten;
+[e = _ptr -> &U _gotten `*uc ]
+"238
+[; ;main.c: 238:         sprintf(buffer, "\n\rReceived string: ");
+[e ( _sprintf (1 , &U _buffer :s 12C ]
+"239
+[; ;main.c: 239:         send_string_no_lib(buffer);
+[e ( _send_string_no_lib (1 -> &U _buffer `*uc ]
+"240
+[; ;main.c: 240:         send_string_no_lib(ptr);
+[e ( _send_string_no_lib (1 -> _ptr `*uc ]
+"241
+[; ;main.c: 241:         sprintf(buffer, "\r\n");
+[e ( _sprintf (1 , &U _buffer :s 13C ]
+"242
+[; ;main.c: 242:         send_string_no_lib(buffer);
+[e ( _send_string_no_lib (1 -> &U _buffer `*uc ]
+"243
+[; ;main.c: 243:         print_line();
+[e ( _print_line ..  ]
 "245
-[; ;main.c: 245:     return 0;
+[; ;main.c: 245:         __asm(" clrwdt");
+[; <"  clrwdt ;# ">
+"246
+[; ;main.c: 246:     }
+}
+[e :U 290 ]
+[e $U 291  ]
+[e :U 292 ]
+"247
+[; ;main.c: 247:     return 0;
 [e ) -> 0 `i ]
 [e $UE 289  ]
-"246
-[; ;main.c: 246: }
+"248
+[; ;main.c: 248: }
 [e :UE 289 ]
 }
 [p f _sprintf 15245460 ]
 [a 8C 66 121 116 101 32 97 116 32 40 37 100 41 58 0 ]
 [a 12C 10 13 82 101 99 101 105 118 101 100 32 115 116 114 105 110 103 58 32 0 ]
 [a 9C 37 48 50 88 72 58 32 0 ]
-[a 11C 69 110 116 101 114 32 97 32 115 116 97 116 101 109 101 110 116 32 98 101 108 111 119 58 10 13 0 ]
+[a 11C 69 110 116 101 114 32 97 32 115 116 97 116 101 109 101 110 116 32 98 101 108 111 119 32 40 49 53 32 99 104 97 114 97 99 116 101 114 115 41 58 10 13 0 ]
 [a 10C 37 48 120 32 37 48 120 32 37 48 120 32 37 48 120 32 37 48 120 32 37 48 120 32 37 48 120 32 37 48 120 13 10 0 ]
 [a 4C 99 104 114 32 61 32 37 99 44 32 115 104 114 116 32 61 32 37 100 44 32 108 110 103 32 61 32 37 108 100 44 32 102 108 116 61 37 102 13 10 0 ]
 [a 7C 99 104 114 32 61 32 37 99 44 32 115 104 114 116 32 61 32 37 100 44 32 108 110 103 32 61 32 37 108 100 44 32 102 108 116 61 37 102 13 10 0 ]

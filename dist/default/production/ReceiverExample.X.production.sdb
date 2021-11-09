@@ -243,16 +243,16 @@
 [v _lcd_tris lcd_tris `S45  1 e 1 @149 ]
 "132
 [v _buffer buffer `[200]uc  1 e 200 0 ]
-"215
+"216
 [v _gotten gotten `VEuc  1 e 1 @32 ]
 "207
 [v _main main `(i  1 e 2 0 ]
 {
-"219
+"220
 [v main@i i `s  1 a 2 89 ]
-"217
+"218
 [v main@ptr ptr `*.39uc  1 a 2 91 ]
-"246
+"248
 } 0
 "9 C:\Program Files\Microchip\xc8\v2.32\pic\sources\c99\common\nf_sprintf.c
 [v _sprintf sprintf `(i  1 e 2 0 ]
